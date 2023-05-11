@@ -1,12 +1,15 @@
 package br.com.pointbee.afrotech.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
 
 @Entity
-@Table(name = "tb_category_product")
+@Table(name = "tb_category")
 public class Category {
 
     @Id
@@ -14,43 +17,55 @@ public class Category {
     private Long id;
 
     @NotBlank
-    private String name_category;
+    private  String name;
 
-    @NotBlank
-    private Double amount_payable;
+    @NotNull
+    private double payment_amount;
 
-    @NotBlank
-    private Integer punctuation;
+    @NotNull
+    private int punctuation;
 
-    @OneToMany(mappedBy = "categorys", cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties("categorys")
-    private List<Product> services;
+    @OneToMany(mappedBy = "categories", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties("categories")
+    private List<Product> products;
 
     public Long getId() {
         return id;
     }
 
-    public String getName_category() {
-        return name_category;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setName_category(String name_category) {
-        this.name_category = name_category;
+    public String getName() {
+        return name;
     }
 
-    public Double getAmount_payable() {
-        return amount_payable;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Integer getPunctuation() {
+    public double getPayment_amount() {
+        return payment_amount;
+    }
+
+    public void setPayment_amount(double payment_amount) {
+        this.payment_amount = payment_amount;
+    }
+
+    public int getPunctuation() {
         return punctuation;
     }
 
-    public List<Product> getServices() {
-        return services;
+    public void setPunctuation(int punctuation) {
+        this.punctuation = punctuation;
     }
 
-    public void setServices(List<Product> services) {
-        this.services = services;
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }
