@@ -2,14 +2,15 @@ package br.com.pointbee.afrotech.controller;
 
 import br.com.pointbee.afrotech.model.Category;
 import br.com.pointbee.afrotech.repository.CategoryRepository;
-import jakarta.validation.Valid;
-import oracle.jdbc.proxy.annotation.Post;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 

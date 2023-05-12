@@ -5,12 +5,12 @@ import br.com.pointbee.afrotech.model.User;
 import br.com.pointbee.afrotech.model.UserLogin;
 import br.com.pointbee.afrotech.repository.UserRepository;
 import br.com.pointbee.afrotech.service.UserService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
