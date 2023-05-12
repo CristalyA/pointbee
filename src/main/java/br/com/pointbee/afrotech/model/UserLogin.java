@@ -4,7 +4,7 @@ public class UserLogin {
 
     private  Long id;
     private String name;
-    private String user;
+    private String userLogin;
     private String password;
     private String token;
     private String typeUser;
@@ -25,12 +25,12 @@ public class UserLogin {
         this.name = name;
     }
 
-    public String getUser() {
-        return user;
+    public String getUserLogin() {
+        return userLogin;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
     }
 
     public String getPassword() {
