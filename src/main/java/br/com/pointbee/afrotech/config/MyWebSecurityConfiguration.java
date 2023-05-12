@@ -15,6 +15,7 @@ public class MyWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/main/free").permitAll()
+                .antMatchers("/user/all").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
