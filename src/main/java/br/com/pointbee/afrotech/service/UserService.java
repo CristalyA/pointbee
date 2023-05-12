@@ -1,6 +1,5 @@
 package br.com.pointbee.afrotech.service;
 
-import org.apache.tomcat.util.codec.binary.Base64;
 import br.com.pointbee.afrotech.model.User;
 import br.com.pointbee.afrotech.model.UserLogin;
 import br.com.pointbee.afrotech.repository.UserRepository;
@@ -51,7 +50,7 @@ public class UserService {
             if (comparePassword(userLogin.get().getPassword(), user.get().getPassword())) {
 
                 userLogin.get().setId(user.get().getId());
-                userLogin.get().setName(user.get().getName_user());
+                userLogin.get().setName(user.get().getUserName());
                 userLogin.get().setToken(generateBasicToken(userLogin.get().getUserLogin(), userLogin.get().getPassword()));
                 userLogin.get().getPassword();
                 userLogin.get().setPassword(user.get().getPassword());
