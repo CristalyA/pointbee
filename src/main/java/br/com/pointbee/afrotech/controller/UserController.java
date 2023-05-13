@@ -2,7 +2,8 @@ package br.com.pointbee.afrotech.controller;
 
 
 import br.com.pointbee.afrotech.model.User;
-import br.com.pointbee.afrotech.model.UserLogin;
+import br.com.pointbee.afrotech.security.UserDetailsImpl;
+import br.com.pointbee.afrotech.security.UserRequestLogin;
 import br.com.pointbee.afrotech.repository.UserRepository;
 import br.com.pointbee.afrotech.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
 
@@ -39,21 +37,21 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserLogin> autenticationUser (@RequestBody Optional<UserLogin> user){
+    public ResponseEntity<UserDetailsImpl> autenticationUser (@RequestBody UserRequestLogin user){
         return service.loginUser(user)
                 .map(response -> ResponseEntity.ok(response))
                 .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> postUser(@Valid @RequestBody User user){
+    public ResponseEntity<User> postUser(@RequestBody User user){
         return service.registerUser(user)
                 .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
                 .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
     }
 
     @PutMapping("/update")
-    public ResponseEntity<User> putUser(@Valid @RequestBody User user){
+    public ResponseEntity<User> putUser(@RequestBody User user){
         return service.updateUser(user)
                 .map(response -> ResponseEntity.status(HttpStatus.OK).body(response))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());

@@ -22,7 +22,7 @@ public class Product {
     private  Long id;
 
     @NotBlank
-    private String name_product;
+    private String nameProduct;
 
     @NotBlank
     private String quantity;
@@ -38,7 +38,4 @@ public class Product {
     @JsonIgnoreProperties("products")
     private Category categories;
 
-    @ManyToOne
-    @JsonIgnoreProperties("products")
-    private User user;
 }

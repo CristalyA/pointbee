@@ -14,8 +14,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "tb_category")
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Category {
@@ -28,7 +28,7 @@ public class Category {
     private  String name;
 
     @NotNull
-    private double payment_amount;
+    private double paymentAmount;
 
     @NotNull
     private int punctuation;
