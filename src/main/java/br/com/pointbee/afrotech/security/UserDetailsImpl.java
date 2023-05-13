@@ -1,15 +1,13 @@
 package br.com.pointbee.afrotech.security;
 
+import br.com.pointbee.afrotech.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import br.com.pointbee.afrotech.model.User;
 
 import java.util.Collection;
 import java.util.List;
 
-public class UserDetailsImpl implements UserDetails{
-
-    private static final long serialVersionUID = 1L;
+public class UserDetailsImpl implements UserDetails {
 
     private String userName;
     private String password;
@@ -18,9 +16,6 @@ public class UserDetailsImpl implements UserDetails{
     public UserDetailsImpl(User user) {
         this.userName = user.getEmail();
         this.password = user.getPassword();
-    }
-
-    public UserDetailsImpl() {
     }
 
     @Override
@@ -35,7 +30,6 @@ public class UserDetailsImpl implements UserDetails{
 
     @Override
     public String getUsername() {
-
         return userName;
     }
 
@@ -58,6 +52,4 @@ public class UserDetailsImpl implements UserDetails{
     public boolean isEnabled() {
         return true;
     }
-
-
 }

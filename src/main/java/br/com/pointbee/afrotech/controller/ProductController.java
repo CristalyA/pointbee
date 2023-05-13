@@ -4,19 +4,18 @@ package br.com.pointbee.afrotech.controller;
 import br.com.pointbee.afrotech.model.Product;
 import br.com.pointbee.afrotech.repository.CategoryRepository;
 import br.com.pointbee.afrotech.repository.ProductRepository;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ProductController {
 
     @Autowired
@@ -42,24 +41,31 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> post(@Valid @RequestBody Product products){
-        if (categoryRepository.existsById(products.getCategories().getId()))
+    public ResponseEntity<Product> post(@RequestBody Product product) {
+        if (categoryRepository.existsById(product.getCategories().getId())) {
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(productRepository.save(products));
+                    .body(productRepository.save(product));
+        }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @PutMapping
-    public ResponseEntity<Product> put(@Valid @RequestBody Product products){
-        if (productRepository.existsById(products.getId())){
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> put(@PathVariable Long id, @RequestBody Product product) {
+        Optional<Product> productOpt = productRepository.findById(id);
+        if (productOpt.isPresent()) {
+            Product updatedProduct = productOpt.get();
+            updatedProduct.setNameProduct(product.getNameProduct());
+            updatedProduct.setQuantity(product.getQuantity());
+            updatedProduct.setQuality(product.getQuality());
+            updatedProduct.setStatus(product.getStatus());
+            updatedProduct.setCategories(product.getCategories());
 
-            if (categoryRepository.existsById(products.getCategories().getId()))
-                return ResponseEntity.status(HttpStatus.OK)
-                        .body(productRepository.save(products));
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            if (categoryRepository.existsById(product.getCategories().getId())) {
+                return ResponseEntity.ok(productRepository.save(updatedProduct));
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
         }
-
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 

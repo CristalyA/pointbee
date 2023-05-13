@@ -1,8 +1,8 @@
 package br.com.pointbee.afrotech.service;
 
-import org.apache.tomcat.util.codec.binary.Base64;
 import br.com.pointbee.afrotech.model.User;
-import br.com.pointbee.afrotech.model.UserLogin;
+import br.com.pointbee.afrotech.security.UserDetailsImpl;
+import br.com.pointbee.afrotech.security.UserRequestLogin;
 import br.com.pointbee.afrotech.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,25 +43,19 @@ public class UserService {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado!", null);
     }
 
-    public Optional<UserLogin> loginUser(Optional<UserLogin> userLogin) {
+    public Optional<UserDetailsImpl> loginUser(UserRequestLogin userAuth) {
 
-        Optional<User> user = userRepository.findByEmail(userLogin.get().getUserLogin());
+        Optional<User> userOpt = userRepository.findByEmail(userAuth.getEmail());
 
-        if (user.isPresent()) {
-            if (comparePassword(userLogin.get().getPassword(), user.get().getPassword())) {
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            UserDetailsImpl userDetailsImpl = new UserDetailsImpl(user);
+            if (comparePassword(userAuth.getPassword(), user.getPassword())) {
 
-                userLogin.get().setId(user.get().getId());
-                userLogin.get().setName(user.get().getName_user());
-                userLogin.get().setToken(generateBasicToken(userLogin.get().getUserLogin(), userLogin.get().getPassword()));
-                userLogin.get().getPassword();
-                userLogin.get().setPassword(user.get().getPassword());
-                userLogin.get().setTypeUser(user.get().getUserType());
-
-                return userLogin;
+                return Optional.of(userDetailsImpl);
 
             }
         }
-
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Email ou senha inválidos!", null);
     }
 
@@ -84,4 +78,6 @@ public class UserService {
         byte[] structureBase64 = java.util.Base64.getEncoder().encode(structure.getBytes(Charset.forName("US-ASCII")));
         return "Basic " + new String(structureBase64);
     }
+
+
 }
